@@ -10,49 +10,31 @@
 name: Aria2 Builder
 
 on:
-    workflow_dispatch:
-    repository_dispatch:
-    push:
-        paths-ignore:
-            - '**.md'
-            - 'LICENSE'
-    schedule:
-        - cron: 0 8 * * 5
-env: 
-    TZ: Asia/Shanghai
+  workflow_dispatch:
+  repository_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        PLATFORMS: [amd64, arm64, armhf, i386] #armhf have some compatible issue
-        #PLATFORMS: [amd64, arm64,  i386]
+        PLATFORMS: [arm64]
         include:
-        - PLATFORMS: amd64
-          BUILDER_IMAGE: ubuntu:20.04
-          BUILD_SCRIPT: aria2-gnu-linux-build-amd64.sh
         - PLATFORMS: arm64
-          BUILDER_IMAGE: ubuntu:20.04
+          BUILDER_IMAGE: debian:11
           BUILD_SCRIPT: aria2-gnu-linux-cross-build-arm64.sh
-        - PLATFORMS: armhf
-          BUILDER_IMAGE: ubuntu:20.04
-          BUILD_SCRIPT: aria2-gnu-linux-cross-build-armhf.sh
-        - PLATFORMS: i386
-          BUILDER_IMAGE: debian:10
-          BUILD_SCRIPT: aria2-gnu-linux-cross-build-i386.sh
-
+          
     steps:
 
     - name: Install QEMU
       run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      
 
     - name: Checkout
       uses: actions/checkout@v2
-
 
     - name: Build
       env:
@@ -60,15 +42,12 @@ jobs:
         BUILDER_IMAGE: ${{ matrix.BUILDER_IMAGE }}
         BUILD_SCRIPT: ${{ matrix.BUILD_SCRIPT }}
       run: |
-        docker buildx build \
-          --builder "$(docker buildx create --driver-opt env.BUILDKIT_STEP_LOG_MAX_SIZE=50485760)" \
+        docker build \
           --build-arg BUILDER_IMAGE \
           --build-arg BUILD_SCRIPT \
           --platform=local \
           -o ./output . \
           2>&1 | tee build.log
-
-
     - name: Output Error Log
       if: (!cancelled())
       run: grep -iE 'fatal|error|critical|failure|warning' build.log
@@ -78,7 +57,9 @@ jobs:
         tar xzvf ./output/aria2*.tar.gz
         file aria2c 2>&1 | tee ./output/file-type-${{ matrix.PLATFORMS }}.txt
         ./aria2c -v 2>&1 | tee ./output/version-${{ matrix.PLATFORMS }}.txt
-
+        cp /etc/ssl/certs/ca-certificates.crt ./output/ca-certificates.crt
+        sudo mkdir -p /data/Aria2/ssl/certs
+        sudo cp /etc/ssl/certs/ca-certificates.crt /data/Aria2/ssl/certs/ca-certificates.crt
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
@@ -97,8 +78,3 @@ jobs:
           --dht-entry-point='dht.transmissionbt.com:6881' \
           --dht-entry-point6='dht.transmissionbt.com:6881' \
           "$(curl -fsSL https://ubuntu.com/download/alternative-downloads | grep -o 'https.*server.*torrent' | head -1)"
-
-    - name: Static-build Verifcation
-      run: |
-           echo "Static-build verifcation result"
-           echo $(ldd ./aria2c)
