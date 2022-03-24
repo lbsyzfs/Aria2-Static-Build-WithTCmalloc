@@ -13,6 +13,9 @@ DEBIAN_INSTALL() {
     $SUDO apt-get -y install build-essential git curl ca-certificates \
         libxml2-dev libcppunit-dev autoconf automake autotools-dev autopoint libtool pkg-config \
         gcc-$HOST g++-$HOST
+    cd /usr/local
+    $SUDO wget https://dl.google.com/android/repository/android-ndk-r25-beta1-linux.zip?hl=zh-cn
+    $SUDO unzip android-ndk-r25-beta1-linux.zip
 }
 
 FEDORA_INSTALL() {
