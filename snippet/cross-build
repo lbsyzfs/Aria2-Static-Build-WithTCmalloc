@@ -145,7 +145,7 @@ ARIA2_BUILD() {
         --with-tcmalloc \
         --with-ca-bundle='/data/Aria2/ssl/certs/ca-certificates.crt' \
 		--enable-threads=posix \
-        ARIA2_STATIC=yes \
+        #ARIA2_STATIC=yes \
         --disable-shared
     make -j$(nproc)
 }
