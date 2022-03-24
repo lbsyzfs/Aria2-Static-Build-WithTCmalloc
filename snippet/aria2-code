@@ -22,12 +22,20 @@ ARIA2_GIT_CODE() {
     autoreconf -fi || autoreconf -fiv
 }
 
-ARIA2_RELEASE_CODE() {
+#ARIA2_RELEASE_CODE() {
     mkdir -p $ARIA2_CODE_DIR && cd $ARIA2_CODE_DIR
     curl -s 'https://api.github.com/repos/aria2/aria2/releases/latest' |
         grep 'browser_download_url.*[0-9]\.tar\.xz' | sed -e 's/^[[:space:]]*//' |
         cut -d ' ' -f 2 | xargs -I % curl -Ls -o - '%' | tar Jxvf - --strip-components=1
 }
+
+ARIA2_RELEASE_CODE() {
+    mkdir -p $ARIA2_CODE_DIR && cd $ARIA2_CODE_DIR
+    wget https://github.com/lbsyzfs/aria2-1/releases/download/release-1.36.0/aria2-release-1.36.0.zip
+    unzip aria2-release-1.36.0.zip
+    mv aria2-release-1.36.0/* ./ 
+}
+
 
 ARIA2_PATCH() {
     git apply $SCRIPT_DIR/patch/*.patch
