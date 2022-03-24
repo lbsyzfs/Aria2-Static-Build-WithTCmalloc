@@ -31,10 +31,9 @@ ARIA2_GIT_CODE() {
 
 ARIA2_RELEASE_CODE() {
     mkdir -p $ARIA2_CODE_DIR && cd $ARIA2_CODE_DIR
-    wget https://github.com/lbsyzfs/aria2-1/releases/download/release-1.36.0/aria2-1.36.0.zip
-    unzip aria2-1.36.0.zip
-    mv aria2-1.36.0/* ./
-    chmod 700 configure
+    wget https://github.com/lbsyzfs/aria2-1/releases/download/release-1.35.0/aria2.tar.gz
+    tar -xzvf aria2.tar.gz
+    #chmod 700 configure
 }
 
 
