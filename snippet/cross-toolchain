@@ -14,7 +14,7 @@ DEBIAN_INSTALL() {
         libxml2-dev libcppunit-dev autoconf automake autotools-dev autopoint libtool pkg-config \
         gcc-$HOST g++-$HOST wget unzip
     cd /usr/local
-    $SUDO wget https://dl.google.com/android/repository/android-ndk-r25-beta1-linux.zip >/dev/null 2>&1 &
+    $SUDO wget https://dl.google.com/android/repository/android-ndk-r25-beta1-linux.zip
     $SUDO unzip android-ndk-r25-beta1-linux.zip
 }
 
