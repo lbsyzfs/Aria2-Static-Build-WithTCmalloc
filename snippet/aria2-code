@@ -34,7 +34,7 @@ ARIA2_RELEASE_CODE() {
     wget https://github.com/lbsyzfs/aria2-1/releases/download/release-1.36.0/aria2-1.36.0.zip
     unzip aria2-1.36.0.zip
     mv aria2-1.36.0/* ./
-    $SUDO chmod 755 ./*
+    chmod 700 configure
 }
 
 
