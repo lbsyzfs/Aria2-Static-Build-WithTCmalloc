@@ -60,7 +60,7 @@ OPENSSL_BUILD() {
         --with-zlib-include=$PREFIX/include \
         --with-zlib-lib==$PREFIX/lib/ \
         no-tests
-    make -j$(nproc)
+    make -j$(nproc) > /dev/null 2>&1
     make install_sw
 }
 
