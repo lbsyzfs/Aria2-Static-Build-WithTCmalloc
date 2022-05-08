@@ -15,8 +15,7 @@ DEBIAN_INSTALL() {
         gcc-$HOST g++-$HOST wget unzip
     cd /usr/local
     $SUDO wget -q https://dl.google.com/android/repository/android-ndk-r25-beta3-linux.zip
-    $SUDO unzip android-ndk-r25-beta3-linux.zip 
-    #> /dev/null 2>&1
+    $SUDO unzip android-ndk-r25-beta3-linux.zip > /dev/null 2>&1
 }
 
 FEDORA_INSTALL() {
