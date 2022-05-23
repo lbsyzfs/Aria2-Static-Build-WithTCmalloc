@@ -59,7 +59,8 @@ jobs:
         ./aria2c -v 2>&1 | tee ./output/version-${{ matrix.PLATFORMS }}.txt
         cp /etc/ssl/certs/ca-certificates.crt ./output/ca-certificates.crt
         sudo mkdir -p /data/Aria2/ssl/certs
-        sudo cp /etc/ssl/certs/ca-certificates.crt /data/Aria2/ssl/certs/ca-certificates.crt
+        #sudo cp /etc/ssl/certs/ca-certificates.crt /data/Aria2/ssl/certs/ca-certificates.crt
+        sudo cp /etc/ssl/certs/ca-certificates.crt /data/Aria2/ca-certificates.crt
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
