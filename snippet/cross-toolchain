@@ -13,7 +13,7 @@ DEBIAN_INSTALL() {
     $SUDO apt-get -y dist-upgrade
     $SUDO apt-get -y install build-essential git curl ca-certificates \
         libxml2-dev libcppunit-dev autoconf automake autotools-dev autopoint libtool pkg-config \
-        gcc-$HOST g++-$HOST
+        gcc-11-$HOST g++-11-$HOST
 }
 
 FEDORA_INSTALL() {
