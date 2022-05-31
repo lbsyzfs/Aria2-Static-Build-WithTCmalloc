@@ -142,7 +142,7 @@ ARIA2_BUILD() {
         --without-libgmp \
         --with-libssh2 \
         --with-sqlite3 \
-        --without-tcmalloc \
+        --with-tcmalloc \
         --with-ca-bundle='/data/Aria2/ssl/certs/ca-certificates.crt' \
 		--enable-threads=posix --disable-shared \
         ARIA2_STATIC=yes
